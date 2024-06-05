@@ -5,7 +5,7 @@ rule manta_call:
   output:
     out = "MANTA/indResult/{sample}/results/variants/diploidSV.vcf.gz"
   params:
-    fasta = "ref/rheMac10.fa",
+    fasta = config['reference_fasta'],
     workDir = "MANTA/indResult/{sample}"
   threads: 24
   resources:
@@ -36,7 +36,7 @@ rule manta_inv:
   output:
     vcf = "MANTA/indResult/{sample}/{sample}.manta.vcf.gz"
   params:
-    fasta = "ref/rheMac10.fa",
+    fasta = config['reference_fasta'],
     tmp = "MANTA/indResult/{sample}/{sample}.tmp.vcf.gz"
   threads: 1
   resources:
@@ -74,26 +74,26 @@ rule manta_svimmer:
   input:
     "manta.vcf.list"
   output:
-    vcf = "MANTA/groupCall/separate/{chrm}.svimmer.vcf"
+    vcf = "MANTA/merged/separate/{chrm}.svimmer.vcf"
   params:
     chrm = "{chrm}"
-  conda: "env/pysam.yaml"
+  conda: "../env/pysam.yaml"
   threads: 6
   resources:
     time = 600,
     mem_mb = 60000
   shell:
     '''
-      ./svimmer/svimmer \
+      utils/svimmer/svimmer \
         --threads {threads} \
         {input} {params.chrm} > {output.vcf}
     '''
 
 rule manta_join:
   input:
-    expand("MANTA/groupCall/separate/{chrm}.svimmer.vcf", chrm = chrms)
+    expand("MANTA/merged/separate/{chrm}.svimmer.vcf", chrm = chrms)
   output:
-    vcf = "MANTA/groupCall/manta-merged.sites.vcf.gz"
+    vcf = "MANTA/merged/manta-merged.sites.vcf.gz"
   threads: 2
   resources:
     time = 120,

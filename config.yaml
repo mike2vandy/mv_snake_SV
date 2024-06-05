@@ -1,0 +1,20 @@
+
+sample_list: sampleName.txt
+
+chr_list: ref/chrms.txt
+
+reference_fasta: ref/canFam4.fa
+
+sif: /home/fried255/mvandewe/universalDat/UU_Cfam_GSD_ROSY/wags.sif
+
+reference: canFam4
+
+species: dog
+
+conda_envs:
+  delly: delly
+  gridss: gridss
+  smoove: smoove
+  manta: manta
+
+

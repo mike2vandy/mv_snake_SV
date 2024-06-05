@@ -6,7 +6,7 @@ rule delly_call:
     vcf = "DELLY/indResults/{sample}/filter/{sample}_{sv_type}.vcf.gz"
   params:
     sv = '{sv_type}',
-    fasta = "ref/rheMac10.fa",
+    fasta = config['reference_fasta'],
     tmp = "DELLY/indResults/{sample}/raw/{sample}_{sv_type}.bcf"
   threads: 1
   resources:
@@ -38,7 +38,8 @@ rule delly_concat:
     "DELLY/indResults/{sample}/filter/{sample}_DEL.vcf.gz",
     "DELLY/indResults/{sample}/filter/{sample}_DUP.vcf.gz",
     "DELLY/indResults/{sample}/filter/{sample}_INV.vcf.gz",
-    "DELLY/indResults/{sample}/filter/{sample}_INS.vcf.gz"
+    "DELLY/indResults/{sample}/filter/{sample}_INS.vcf.gz",
+    "DELLY/indResults/{sample}/filter/{sample}_BND.vcf.gz"
   output:
     vcf = "DELLY/indResults/{sample}/{sample}.delly.vcf.gz"
   threads: 1
@@ -77,6 +78,4 @@ rule delly_merge:
 
     tabix {output.vcf}
     '''
-
-
 

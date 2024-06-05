@@ -1,0 +1,122 @@
+{   
+    "graphFilter" :
+    {
+        "output" : ".logs/%j.{rule}.out",
+        "error"  : ".logs/%j.{rule}.err"
+    },
+    "graphTyper" :
+    {
+        "output" : ".logs/{wildcards.sample}/%j.{rule}.out",
+        "error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
+    },
+    "graphMerge" :
+    {
+        "output" : ".logs/%j.{rule}.out",
+        "error"  : ".logs/%j.{rule}.err"
+    },
+   "smoove_call" :
+    {
+        "output" : ".logs/{wildcards.sample}/%j.{rule}.out",
+        "error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
+    },
+    "smoove_merge" :
+    {
+        "output" : ".logs/%j.{rule}.out",
+        "error"  : ".logs/%j.{rule}.err"
+    }, 
+    "LumpyAnnotate" :
+    {
+        "output" : ".logs/%j.{rule}.out",
+        "error"  : ".logs/%j.{rule}.err"
+    },
+    "convertInv" :
+    {
+        "output" : ".logs/inv/{wildcards.sample}/%j.{rule}.out",
+        "error"  : ".logs/inv/{wildcards.sample}/%j.{rule}.err"
+    },
+    "make_manta_list":
+    {
+    "output" : ".logs/%j.{rule}.out",
+    "error"  : ".logs/%j.{rule}.err"
+    },
+    "manta_call" :
+    {
+    "output" : ".logs/{wildcards.sample}/%j.{rule}.out",
+    "error" : ".logs/{wildcards.sample}/%j.{rule}.err",
+    },
+    "manta_svimmer" :
+    {
+        "output" : ".logs/svimmer/{wildcards.chrm}/%j.{rule}.out",
+        "error"  : ".logs/svimmer/{wildcards.chrm}/%j.{rule}.err"
+    },
+    "manta_join":
+    {
+    "output" : ".logs/svimmer/%j.{rule}.out",
+    "error"  : ".logs/svimmer/%j.{rule}.err"
+    },
+    "manta_inv":
+    {
+    "output" : ".logs/{wildcards.sample}/%j.{rule}.out",
+    "error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
+    },
+    "survivor":
+    {
+     "output" : ".logs/%j.{rule}.out",
+     "error"  : ".logs/%j.{rule}.err"
+    },
+    "copyVCFs":
+    {
+     "output" : ".logs/%j.{rule}.out",
+     "error"  : ".logs/%j.{rule}.err"
+    },
+    "delly_call":
+    {
+    "output" : ".logs/{wildcards.sample}/{wildcards.sv_type}/%j.{rule}.out",
+    "error"  : ".logs/{wildcards.sample}/{wildcards.sv_type}/%j.{rule}.err"
+    },
+    "delly_concat":
+    {
+    "output" : ".logs/{wildcards.sample}/%j.{rule}.out",
+    "error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
+    },
+    "delly_merge" :
+    {
+    "output" : ".logs/%j.{rule}.out",
+    "error"  : ".logs/%j.{rule}.err"
+    },
+    "filter_survivor":
+    {
+    "output" : ".logs/%j.{rule}.out",
+    "error"  : ".logs/%j.{rule}.err"
+    },
+    "gridss_filter":
+    {
+    "output" : ".logs/{wildcards.sample}/%j.{rule}.out",
+    "error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
+    },
+    "gridss_anno":
+    {
+    "output" : ".logs/{wildcards.sample}/%j.{rule}.out",
+    "error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
+    },
+    "gridss_call":
+    {
+    "output" : ".logs/{wildcards.sample}/%j.{rule}.out",
+    "error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
+    }, 
+    "gridss_svimmer":
+    {
+    "output" : ".logs/svimmer/{wildcards.chrm}/%j.{rule}.out",
+    "error"  : ".logs/svimmer/{wildcards.chrm}/%j.{rule}.err"
+    },
+    "gridss_join":
+    {
+    "output" : ".logs/svimmer/%j.{rule}.out",
+    "error"  : ".logs/svimmer/%j.{rule}.err"
+    },
+    "make_gridss_list":
+    {
+    "output" : ".logs/%j.{rule}.out",
+    "error"  : ".logs/%j.{rule}.err"
+    }
+}

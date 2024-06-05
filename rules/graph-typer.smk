@@ -8,9 +8,9 @@ rule graphTyper:
     vcf = "GRAPHTYPER/{sample}/{sample}.genotype.vcf.gz"
   params:
     outDir = "GRAPHTYPER/{sample}",
-    fasta = "ref/rheMac10.fa",
-    region = "ref/gt.reg.list"
-  conda: "env/gter.yaml"
+    fasta = config['reference_fasta'],
+    region = config['chr_list']
+  conda: "../env/gter.yaml"
   threads: 10
   resources:
     time = 240,
@@ -42,8 +42,8 @@ rule graphMerge:
   input:
     expand("GRAPHTYPER/{sample}/{sample}.genotype.vcf.gz", sample = samples)
   output:
-    vcf = "GRAPHTYPER/final/rheMac.square.vcf.gz"
-  conda: "env/gter.yaml"
+    vcf = expand("GRAPHTYPER/final/{species}.square.vcf.gz", species = config['species'])
+  conda: "../env/gter.yaml"
   threads: 1
   resources:
     time = 60,
@@ -59,9 +59,9 @@ rule graphMerge:
 
 rule graphFilter:
   input:
-    "GRAPHTYPER/final/rheMac.square.vcf.gz"
+    expand("GRAPHTYPER/final/{species}.square.vcf.gz", species = config['species'])
   output:
-    "GRAPHTYPER/final/rheMac.square.filter.vcf.gz"
+    expand("GRAPHTYPER/final/{species}.{reference}.SVs.vcf.gz", species = config['species'], reference = config['reference'])
   threads: 1
   resources:
     time = 60,

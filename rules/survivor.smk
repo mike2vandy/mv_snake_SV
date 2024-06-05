@@ -1,10 +1,10 @@
 
 rule copyVCFs:
   input:
-    "MANTA/groupCall/manta-merged.sites.vcf.gz",
+    "MANTA/merged/manta-merged.sites.vcf.gz",
     "SMOOVE/merged/smoove-merged.sites.vcf.gz",
     "DELLY/merged/delly-merged.sites.vcf.gz",
-    "GRIDSS/groupCall/gridss-merged.sites.vcf.gz"
+    "GRIDSS/merged/gridss-merged.sites.vcf.gz"
   output:
     "SURVIVOR/callers/manta-merged.sites.vcf",
     "SURVIVOR/callers/smoove-merged.sites.vcf",
@@ -48,16 +48,18 @@ rule filter_survivor:
     "SURVIVOR/filter/survivor.filter.vcf.gz"
   params:
     tmp = "SURVIVOR/main/survivor.filter.vcf"
-  conda: "env/gter.yaml"
+  conda: "../env/gter.yaml"
   threads: 1
   resources:
     time = 60,
     mem_mb = 40000
   shell:
     '''
-      ./software/filterSurv.py {input} > {params.tmp}
+      utils/scripts/filterSurv.py {input} > {params.tmp}
 
       bcftools sort -Oz -o {output} {params.tmp}
+      
+      sleep 60
 
       /opt/conda/bin/tabix {output}
     '''

@@ -6,7 +6,7 @@ rule gridss_call:
     bam = "GRIDSS/indResults/{sample}/{sample}.gridss.bam",
     vcf = "GRIDSS/indResults/{sample}/{sample}.gridss.vcf"
   params:
-    fasta = "ref/rheMac10.fa",
+    fasta = config['reference_fasta'],
     workDir = "GRIDSS/indResults/{sample}"
   threads: 8
   resources:
@@ -17,7 +17,7 @@ rule gridss_call:
       set +eu
       source activate gridss
       set -e
-
+      
       gridss \
         -t {threads} \
         -r {params.fasta} \
@@ -61,7 +61,7 @@ rule gridss_anno:
       source activate gridss
       set -e
 
-      ./software/simple-event-annotation.R {input.vcf} {params.tmp}
+      utils/scripts/simple-event-annotation.R {input.vcf} {params.tmp}
 
       bcftools view \
         -e 'SVTYPE="CTX"' \
@@ -84,26 +84,26 @@ rule gridss_svimmer:
   input:
     "gridss.vcf.list"
   output:
-    "GRIDSS/groupCall/separate/{chrm}.svimmer.vcf"
+    "GRIDSS/merged/separate/{chrm}.svimmer.vcf"
   params:
     chrm = "{chrm}"
-  conda: "env/pysam.yaml"
+  conda: "../env/pysam.yaml"
   threads: 8
   resources:
     time = 120,
     mem_mb = 40000
   shell:
     '''
-      ~/software/svimmer/svimmer \
+      utils/svimmer/svimmer \
         --threads {threads} \
         {input} {params.chrm} > {output}
     '''
 
 rule gridss_join:
   input:
-    expand("GRIDSS/groupCall/separate/{chrm}.svimmer.vcf", chrm = chrms)
+    expand("GRIDSS/merged/separate/{chrm}.svimmer.vcf", chrm = chrms)
   output:
-    "GRIDSS/groupCall/gridss-merged.sites.vcf.gz"
+    "GRIDSS/merged/gridss-merged.sites.vcf.gz"
   threads: 1
   resources:
     time = 120,

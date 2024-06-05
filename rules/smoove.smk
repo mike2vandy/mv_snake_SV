@@ -5,7 +5,7 @@ rule smoove_call:
   output:
     out = "SMOOVE/indResult/{sample}-smoove.genotyped.vcf.gz"
   params:
-    fasta = "ref/rheMac10.fa",
+    fasta = config["reference_fasta"],
     sample = "{sample}",
     outdir = "SMOOVE/indResult"
   threads: 4
@@ -15,6 +15,7 @@ rule smoove_call:
   shell:
     '''
       source activate smoove
+
       smoove call \
         --outdir {params.outdir} \
         --name {params.sample} \
@@ -27,9 +28,9 @@ rule smoove_merge:
   input:
     expand("SMOOVE/indResult/{sample}-smoove.genotyped.vcf.gz", sample = samples)
   output:
-    out = "SMOOVE/merged/smooved-merged.sites.vcf.gz"
+    out = "SMOOVE/merged/smoove-merged.sites.vcf.gz"
   params:
-    fasta = "ref/rheMac10.fa",
+    fasta = config['reference_fasta'],
     name = "smoove-merged",
     outdir = "SMOOVE/merged"
   threads: 20
