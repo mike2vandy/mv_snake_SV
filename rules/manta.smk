@@ -1,12 +1,12 @@
 
 rule manta_call:
   input:
-    bam = "bams/{sample}_pe_sorted_dedup.bam"
+    bam = "bams/{sample}" + config['suffix'] + ".bam"
   output:
-    out = "MANTA/indResult/{sample}/results/variants/diploidSV.vcf.gz"
+    out = "output/MANTA/indResult/{sample}/results/variants/diploidSV.vcf.gz"
   params:
     fasta = config['reference_fasta'],
-    workDir = "MANTA/indResult/{sample}"
+    workDir = "output/MANTA/indResult/{sample}"
   threads: 24
   resources:
     time = 600,
@@ -32,12 +32,12 @@ rule manta_call:
 
 rule manta_inv:
   input:
-    vcf = "MANTA/indResult/{sample}/results/variants/diploidSV.vcf.gz"
+    vcf = "output/MANTA/indResult/{sample}/results/variants/diploidSV.vcf.gz"
   output:
-    vcf = "MANTA/indResult/{sample}/{sample}.manta.vcf.gz"
+    vcf = "output/MANTA/indResult/{sample}/{sample}.manta.vcf.gz"
   params:
     fasta = config['reference_fasta'],
-    tmp = "MANTA/indResult/{sample}/{sample}.tmp.vcf.gz"
+    tmp = "output/MANTA/indResult/{sample}/{sample}.tmp.vcf.gz"
   threads: 1
   resources:
     time = 60,
@@ -64,17 +64,17 @@ rule manta_inv:
 
 rule make_manta_list:
   input:
-    expand("MANTA/indResult/{sample}/{sample}.manta.vcf.gz", sample = samples)
+    expand("output/MANTA/indResult/{sample}/{sample}.manta.vcf.gz", sample = samples)
   output:
-    "manta.vcf.list"
+    "output/lists/manta.vcf.list"
   shell:
     "ls {input} > {output}"
 
 rule manta_svimmer:
   input:
-    "manta.vcf.list"
+    "output/lists/manta.vcf.list"
   output:
-    vcf = "MANTA/merged/separate/{chrm}.svimmer.vcf"
+    vcf = "output/MANTA/merged/separate/{chrm}.svimmer.vcf"
   params:
     chrm = "{chrm}"
   conda: "../env/pysam.yaml"
@@ -91,9 +91,9 @@ rule manta_svimmer:
 
 rule manta_join:
   input:
-    expand("MANTA/merged/separate/{chrm}.svimmer.vcf", chrm = chrms)
+    expand("output/MANTA/merged/separate/{chrm}.svimmer.vcf", chrm = chrms)
   output:
-    vcf = "MANTA/merged/manta-merged.sites.vcf.gz"
+    vcf = "output/MANTA/merged/manta-merged.sites.vcf.gz"
   threads: 2
   resources:
     time = 120,
@@ -107,4 +107,3 @@ rule manta_join:
 
       tabix {output.vcf}
     '''
-

@@ -1,13 +1,13 @@
 
 rule smoove_call:
   input:
-    bam = "bams/{sample}_pe_sorted_dedup.bam"
+    bam = "bams/{sample}" + config['suffix'] + ".bam"
   output:
-    out = "SMOOVE/indResult/{sample}-smoove.genotyped.vcf.gz"
+    out = "output/SMOOVE/indResult/{sample}-smoove.genotyped.vcf.gz"
   params:
     fasta = config["reference_fasta"],
     sample = "{sample}",
-    outdir = "SMOOVE/indResult"
+    outdir = "output/SMOOVE/indResult"
   threads: 4
   resources:
     time = 120,
@@ -26,13 +26,13 @@ rule smoove_call:
 
 rule smoove_merge:
   input:
-    expand("SMOOVE/indResult/{sample}-smoove.genotyped.vcf.gz", sample = samples)
+    expand("output/SMOOVE/indResult/{sample}-smoove.genotyped.vcf.gz", sample = samples)
   output:
-    out = "SMOOVE/merged/smoove-merged.sites.vcf.gz"
+    out = "output/SMOOVE/merged/smoove-merged.sites.vcf.gz"
   params:
     fasta = config['reference_fasta'],
     name = "smoove-merged",
-    outdir = "SMOOVE/merged"
+    outdir = "output/SMOOVE/merged"
   threads: 20
   resources:
     time = 600,

@@ -2,12 +2,12 @@
 
 rule graphTyper:
   input:
-    bam = "bams/{sample}_pe_sorted_dedup.bam",
-    vcf = "SURVIVOR/filter/survivor.filter.vcf.gz"
+    bam = "bams/{sample}" + config['suffix'] + ".bam",
+    vcf = "output/SURVIVOR/filter/survivor.filter.vcf.gz"
   output:
-    vcf = "GRAPHTYPER/{sample}/{sample}.genotype.vcf.gz"
+    vcf = "output/GRAPHTYPER/{sample}/{sample}.genotype.vcf.gz"
   params:
-    outDir = "GRAPHTYPER/{sample}",
+    outDir = "output/GRAPHTYPER/{sample}",
     fasta = config['reference_fasta'],
     region = config['chr_list']
   conda: "../env/gter.yaml"
@@ -34,15 +34,16 @@ rule graphTyper:
       bcftools concat -n -f {params.outDir}/vcf.list \
         -Oz -o {output.vcf}
 
-      tabix {output.vcf}
+      sleep 60
 
+      tabix {output.vcf}
     '''
 
 rule graphMerge:
   input:
-    expand("GRAPHTYPER/{sample}/{sample}.genotype.vcf.gz", sample = samples)
+    expand("output/GRAPHTYPER/{sample}/{sample}.genotype.vcf.gz", sample = samples)
   output:
-    vcf = expand("GRAPHTYPER/final/{species}.square.vcf.gz", species = config['species'])
+    vcf = expand("output/GRAPHTYPER/final/{species}.square.vcf.gz", species = config['species'])
   conda: "../env/gter.yaml"
   threads: 1
   resources:
@@ -59,9 +60,9 @@ rule graphMerge:
 
 rule graphFilter:
   input:
-    expand("GRAPHTYPER/final/{species}.square.vcf.gz", species = config['species'])
+    expand("output/GRAPHTYPER/final/{species}.square.vcf.gz", species = config['species'])
   output:
-    expand("GRAPHTYPER/final/{species}.{reference}.SVs.vcf.gz", species = config['species'], reference = config['reference'])
+    expand("output/GRAPHTYPER/final/{species}.{reference}.SVs.vcf.gz", species = config['species'], reference = config['reference'])
   threads: 1
   resources:
     time = 60,

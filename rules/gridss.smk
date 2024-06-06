@@ -1,13 +1,34 @@
 
-rule gridss_call:
+rule prep_gridss_ref:
   input:
-    bam = "bams/{sample}_pe_sorted_dedup.bam"
+    fasta = config['reference_fasta']
   output:
-    bam = "GRIDSS/indResults/{sample}/{sample}.gridss.bam",
-    vcf = "GRIDSS/indResults/{sample}/{sample}.gridss.vcf"
+    bwt = config['reference_fasta'] + ".bwt"
+  threads: 1
+  resources:
+    time = 240
+    mem_mb = 3600
+  shell:
+    '''
+      set +eu
+      source activate gridss
+      set -e
+
+      gridss \
+        -s processreference \
+        -r {input.fasta}
+    '''
+
+rule gridss_call:
+  input:_
+    bam = "bams/{sample}" + config['suffix'] + ".bam",
+    bwt = config['reference_fasta'] + ".bwt"
+  output:
+    bam = "output/GRIDSS/indResults/{sample}/{sample}.gridss.bam",
+    vcf = "output/GRIDSS/indResults/{sample}/{sample}.gridss.vcf"
   params:
     fasta = config['reference_fasta'],
-    workDir = "GRIDSS/indResults/{sample}"
+    workDir = "output/GRIDSS/indResults/{sample}"
   threads: 8
   resources:
     time = 240,
@@ -30,9 +51,9 @@ rule gridss_call:
 
 rule gridss_filter:
   input:
-    vcf = "GRIDSS/indResults/{sample}/{sample}.gridss.vcf"
+    vcf = "output/GRIDSS/indResults/{sample}/{sample}.gridss.vcf"
   output:
-    vcf = "GRIDSS/indResults/{sample}/{sample}.gridss.filter.vcf"
+    vcf = "output/GRIDSS/indResults/{sample}/{sample}.gridss.filter.vcf"
   threads: 1
   resources:
     time = 120,
@@ -46,11 +67,11 @@ rule gridss_filter:
 
 rule gridss_anno:
   input:
-    vcf = "GRIDSS/indResults/{sample}/{sample}.gridss.filter.vcf"
+    vcf = "output/GRIDSS/indResults/{sample}/{sample}.gridss.filter.vcf"
   output:
-    vcf = "GRIDSS/indResults/{sample}/{sample}.gridss.anno.vcf.gz"
+    vcf = "output/GRIDSS/indResults/{sample}/{sample}.gridss.anno.vcf.gz"
   params:
-    tmp = "GRIDSS/indResults/{sample}/{sample}.gridss.anno.tmp.vcf"
+    tmp = "output/GRIDSS/indResults/{sample}/{sample}.gridss.anno.tmp.vcf"
   threads: 1
   resources:
     time = 120,
@@ -74,17 +95,17 @@ rule gridss_anno:
 
 rule make_gridss_list:
   input:
-    expand("GRIDSS/indResults/{sample}/{sample}.gridss.anno.vcf.gz", sample = samples)
+    expand("output/GRIDSS/indResults/{sample}/{sample}.gridss.anno.vcf.gz", sample = samples)
   output:
-    "gridss.vcf.list"
+    "output/lists/gridss.vcf.list"
   shell:
     "ls {input} > {output}"
 
 rule gridss_svimmer:
   input:
-    "gridss.vcf.list"
+    "output/lists/gridss.vcf.list"
   output:
-    "GRIDSS/merged/separate/{chrm}.svimmer.vcf"
+    "output/GRIDSS/merged/separate/{chrm}.svimmer.vcf"
   params:
     chrm = "{chrm}"
   conda: "../env/pysam.yaml"
@@ -101,9 +122,9 @@ rule gridss_svimmer:
 
 rule gridss_join:
   input:
-    expand("GRIDSS/merged/separate/{chrm}.svimmer.vcf", chrm = chrms)
+    expand("output/GRIDSS/merged/separate/{chrm}.svimmer.vcf", chrm = chrms)
   output:
-    "GRIDSS/merged/gridss-merged.sites.vcf.gz"
+    "output/GRIDSS/merged/gridss-merged.sites.vcf.gz"
   threads: 1
   resources:
     time = 120,

@@ -7,6 +7,8 @@ reference_fasta: ref/canFam4.fa
 
 sif: /home/fried255/mvandewe/universalDat/UU_Cfam_GSD_ROSY/wags.sif
 
+suffix: _pe_sorted_deup
+
 reference: canFam4
 
 species: dog

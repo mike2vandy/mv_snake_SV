@@ -17,7 +17,7 @@ singularity: config['sif']
 rule all:
   input:
     "SMOOVE/merged/smoove-merged.sites.vcf.gz", 
-    expand("GRAPHTYPER/final/{species}.{reference}.SVs.vcf.gz", 
+    expand("output/GRAPHTYPER/final/{species}.{reference}.SVs.vcf.gz", 
       species = config['species'], 
       reference = config['reference']), 
     #expand("GRAPHTYPER/{sample}/{sample}.genotype.vcf.gz", sample = samples)

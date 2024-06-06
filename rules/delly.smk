@@ -1,13 +1,13 @@
 
 rule delly_call:
   input:
-    bam = "bams/{sample}_pe_sorted_dedup.bam"
+    bam = "bams/{sample}" + config['suffix'] + ".bam"
   output:
-    vcf = "DELLY/indResults/{sample}/filter/{sample}_{sv_type}.vcf.gz"
+    vcf = "output/DELLY/indResults/{sample}/filter/{sample}_{sv_type}.vcf.gz"
   params:
     sv = '{sv_type}',
     fasta = config['reference_fasta'],
-    tmp = "DELLY/indResults/{sample}/raw/{sample}_{sv_type}.bcf"
+    tmp = "output/DELLY/indResults/{sample}/raw/{sample}_{sv_type}.bcf"
   threads: 1
   resources:
     time = 600,
@@ -16,7 +16,7 @@ rule delly_call:
     '''
       source activate delly
 
-      mkdir -p DELLY/indResults/{wildcards.sample}/raw
+      mkdir -p output/DELLY/indResults/{wildcards.sample}/raw
 
       delly call \
         -t {params.sv} \
@@ -35,13 +35,13 @@ rule delly_call:
 
 rule delly_concat:
   input:
-    "DELLY/indResults/{sample}/filter/{sample}_DEL.vcf.gz",
-    "DELLY/indResults/{sample}/filter/{sample}_DUP.vcf.gz",
-    "DELLY/indResults/{sample}/filter/{sample}_INV.vcf.gz",
-    "DELLY/indResults/{sample}/filter/{sample}_INS.vcf.gz",
-    "DELLY/indResults/{sample}/filter/{sample}_BND.vcf.gz"
+    "output/DELLY/indResults/{sample}/filter/{sample}_DEL.vcf.gz",
+    "output/DELLY/indResults/{sample}/filter/{sample}_DUP.vcf.gz",
+    "output/DELLY/indResults/{sample}/filter/{sample}_INV.vcf.gz",
+    "output/DELLY/indResults/{sample}/filter/{sample}_INS.vcf.gz",
+    "output/DELLY/indResults/{sample}/filter/{sample}_BND.vcf.gz"
   output:
-    vcf = "DELLY/indResults/{sample}/{sample}.delly.vcf.gz"
+    vcf = "output/DELLY/indResults/{sample}/{sample}.delly.vcf.gz"
   threads: 1
   resources:
     time = 120,
@@ -58,11 +58,11 @@ rule delly_concat:
 
 rule delly_merge:
   input:
-    expand("DELLY/indResults/{sample}/{sample}.delly.vcf.gz", sample = samples)
+    expand("output/DELLY/indResults/{sample}/{sample}.delly.vcf.gz", sample = samples)
   output:
-    vcf = "DELLY/merged/delly-merged.sites.vcf.gz"
+    vcf = "output/DELLY/merged/delly-merged.sites.vcf.gz"
   params:
-    tmp = "DELLY/merged/delly-merged.sites.bcf"
+    tmp = "output/DELLY/merged/delly-merged.sites.bcf"
   threads: 1
   resources:
     time = 120,
