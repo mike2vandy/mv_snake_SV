@@ -92,6 +92,8 @@ rule gridss_anno:
         -o {output.vcf} \
         {params.tmp}
 
+      sleep 60
+
       tabix {output.vcf}
     '''
 
