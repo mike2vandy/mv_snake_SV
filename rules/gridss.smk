@@ -6,7 +6,7 @@ rule prep_gridss_ref:
     bwt = config['reference_fasta'] + ".bwt"
   threads: 1
   resources:
-    time = 240
+    time = 240,
     mem_mb = 3600
   shell:
     '''
@@ -20,7 +20,7 @@ rule prep_gridss_ref:
     '''
 
 rule gridss_call:
-  input:_
+  input:
     bam = "bams/{sample}" + config['suffix'] + ".bam",
     bwt = config['reference_fasta'] + ".bwt"
   output:
