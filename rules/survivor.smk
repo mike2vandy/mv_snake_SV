@@ -16,6 +16,7 @@ rule copyVCFs:
     mem_mb = 20000
   shell:
     '''
+      mkdir -p SURVIVOR/callers
       cp {input} SURVIVOR/callers
       gunzip SURVIVOR/callers/*
     '''
