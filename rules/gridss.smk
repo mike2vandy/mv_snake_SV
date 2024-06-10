@@ -38,6 +38,8 @@ rule gridss_call:
       set +eu
       source activate gridss
       set -e
+
+      unset -f which
       
       gridss \
         -t {threads} \
