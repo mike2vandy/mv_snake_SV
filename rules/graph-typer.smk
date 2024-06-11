@@ -79,3 +79,27 @@ rule graphFilter:
       tabix {output}
     '''
 
+rule graphVep:
+  input:
+    vcf = expand("output/GRAPHTYPER/final/{species}.{reference}.SVs.vcf.gz", species = config['species'], reference = config['reference'])
+  output:
+    vcf = expand("output/GRAPHTYPER/final/{species}.{reference}.SVs.vep.vcf.gz", species = config['species'], reference = config['reference'])
+  params:
+    fasta = config['reference_fasta'],
+    gtf = config['gtf']
+  threads: 4
+  conda: "../env/vep.yaml"
+  resources:
+    time = 120,
+    mem_mb = 60000
+  shell:
+    '''   
+      vep \
+        -i {input.vcf} \
+        -o {output.vcf} \
+        -gtf {params.gtf} \
+        --fasta {params.fasta} \
+        --vcf \
+        --compress_output gzip \
+        --fork {threads}
+    '''

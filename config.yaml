@@ -5,6 +5,8 @@ chr_list: ref/chrms.txt
 
 reference_fasta: ref/canFam4.fa
 
+gtf: ref/GCF_011100685.1_UU_Cfam_GSD_1.0_genomic.gtf.gz
+
 sif: /home/fried255/mvandewe/universalDat/UU_Cfam_GSD_ROSY/wags.sif
 
 suffix: _pe_sorted_dedup
@@ -18,5 +20,6 @@ conda_envs:
   gridss: gridss
   smoove: smoove
   manta: manta
+
 
 

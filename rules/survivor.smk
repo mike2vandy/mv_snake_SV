@@ -16,9 +16,9 @@ rule copyVCFs:
     mem_mb = 20000
   shell:
     '''
-      mkdir -p SURVIVOR/callers
-      cp {input} SURVIVOR/callers
-      gunzip SURVIVOR/callers/*
+      mkdir -p output/SURVIVOR/callers
+      cp {input} output/SURVIVOR/callers
+      gunzip output/SURVIVOR/callers/*
     '''
 
 rule survivor:
@@ -46,7 +46,8 @@ rule filter_survivor:
   input:
     "output/SURVIVOR/main/survivor.raw.vcf"
   output:
-    "output/SURVIVOR/filter/survivor.filter.vcf.gz"
+    vcf = "output/SURVIVOR/filter/survivor.filter.vcf.gz",
+    tbi = "output/SURVIVOR/filter/survivor.filter.vcf.gz.tbi"
   params:
     tmp = "output/SURVIVOR/main/survivor.filter.vcf"
   conda: "../env/gter.yaml"
@@ -58,10 +59,10 @@ rule filter_survivor:
     '''
       utils/scripts/filterSurv.py {input} > {params.tmp}
 
-      bcftools sort -Oz -o {output} {params.tmp}
+      bcftools sort -Oz -o {output.vcf} {params.tmp}
       
       sleep 60
 
-      /opt/conda/bin/tabix {output}
+      /opt/conda/bin/tabix {output.vcf}
     '''
 

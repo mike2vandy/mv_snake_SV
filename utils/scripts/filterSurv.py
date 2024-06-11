@@ -26,7 +26,7 @@ def format_line(record):
 
 vcfR = vcf.Reader(filename = sys.argv[1])
 
-manta = "SURVIVOR/callers/manta-merged.sites.vcf"
+manta = "output/SURVIVOR/callers/manta-merged.sites.vcf"
 
 for line in vcfR._header_lines:
   print(line)

@@ -39,8 +39,8 @@ rule gridss_call:
       source activate gridss
       set -e
 
-      unset -f which
-      
+      unset -f which 
+    
       gridss \
         -t {threads} \
         -r {params.fasta} \
@@ -91,8 +91,6 @@ rule gridss_anno:
         -Oz \
         -o {output.vcf} \
         {params.tmp}
-
-      sleep 60
 
       tabix {output.vcf}
     '''

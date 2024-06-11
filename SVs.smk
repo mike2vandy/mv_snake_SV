@@ -16,18 +16,9 @@ singularity: config['sif']
 
 rule all:
   input:
-    "SMOOVE/merged/smoove-merged.sites.vcf.gz", 
-    expand("output/GRAPHTYPER/final/{species}.{reference}.SVs.vcf.gz", 
-      species = config['species'], 
-      reference = config['reference']), 
-    #expand("GRAPHTYPER/{sample}/{sample}.genotype.vcf.gz", sample = samples)
-    "SURVIVOR/filter/survivor.filter.vcf.gz",
-    #"SURVIVOR/main/survivor.raw.vcf"
-    "MANTA/merged/manta-merged.sites.vcf.gz",
-    "DELLY/merged/delly-merged.sites.vcf.gz",
-    "GRIDSS/merged/gridss-merged.sites.vcf.gz"
-    #expand("GRIDSS/indResults/{sample}/{sample}.gridss.vcf", sample = samples)
-    #expand("DELLY/indResults/{sample}/filter/{sample}_{sv_type}.vcf.gz", sample = samples, sv_type = delSVs)
+    expand("output/GRAPHTYPER/final/{species}.{reference}.SVs.vep.vcf.gz",
+      species = config['species'],
+      reference = config['reference']) 
 
 include: "rules/smoove.smk"
 include: "rules/manta.smk"
