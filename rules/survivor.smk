@@ -61,8 +61,6 @@ rule filter_survivor:
 
       bcftools sort -Oz -o {output.vcf} {params.tmp}
       
-      sleep 60
-
       /opt/conda/bin/tabix {output.vcf}
     '''
 

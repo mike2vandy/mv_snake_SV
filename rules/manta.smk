@@ -59,8 +59,6 @@ rule manta_inv:
         {params.fasta} \
         {params.tmp} |sed '/^\[/d' |bgzip -c > {output.vcf}
 
-      sleep 60
-
       tabix {output.vcf}
     '''
 

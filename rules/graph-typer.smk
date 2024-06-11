@@ -34,8 +34,6 @@ rule graphTyper:
       bcftools concat -n -f {params.outDir}/vcf.list \
         -Oz -o {output.vcf}
 
-      sleep 60
-
       tabix {output.vcf}
     '''
 
