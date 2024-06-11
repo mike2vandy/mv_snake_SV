@@ -36,13 +36,13 @@
     },
     "make_manta_list":
     {
-    "output" : ".logs/%j.{rule}.out",
-    "error"  : ".logs/%j.{rule}.err"
+    	"output" : ".logs/%j.{rule}.out",
+    	"error"  : ".logs/%j.{rule}.err"
     },
     "manta_call" :
     {
-    "output" : ".logs/{wildcards.sample}/%j.{rule}.out",
-    "error" : ".logs/{wildcards.sample}/%j.{rule}.err",
+    	"output" : ".logs/{wildcards.sample}/%j.{rule}.out",
+    	"error" : ".logs/{wildcards.sample}/%j.{rule}.err"
     },
     "manta_svimmer" :
     {
@@ -51,72 +51,77 @@
     },
     "manta_join":
     {
-    "output" : ".logs/svimmer/%j.{rule}.out",
-    "error"  : ".logs/svimmer/%j.{rule}.err"
+    	"output" : ".logs/svimmer/%j.{rule}.out",
+    	"error"  : ".logs/svimmer/%j.{rule}.err"
     },
     "manta_inv":
     {
-    "output" : ".logs/{wildcards.sample}/%j.{rule}.out",
-    "error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
+    	"output" : ".logs/{wildcards.sample}/%j.{rule}.out",
+    	"error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
     },
     "survivor":
     {
-     "output" : ".logs/%j.{rule}.out",
-     "error"  : ".logs/%j.{rule}.err"
+     	"output" : ".logs/%j.{rule}.out",
+     	"error"  : ".logs/%j.{rule}.err"
     },
     "copyVCFs":
     {
-     "output" : ".logs/%j.{rule}.out",
-     "error"  : ".logs/%j.{rule}.err"
+     	"output" : ".logs/%j.{rule}.out",
+     	"error"  : ".logs/%j.{rule}.err"
     },
     "delly_call":
     {
-    "output" : ".logs/{wildcards.sample}/{wildcards.sv_type}/%j.{rule}.out",
-    "error"  : ".logs/{wildcards.sample}/{wildcards.sv_type}/%j.{rule}.err"
+    	"output" : ".logs/{wildcards.sample}/{wildcards.sv_type}/%j.{rule}.out",
+    	"error"  : ".logs/{wildcards.sample}/{wildcards.sv_type}/%j.{rule}.err"
     },
     "delly_concat":
     {
-    "output" : ".logs/{wildcards.sample}/%j.{rule}.out",
-    "error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
+    	"output" : ".logs/{wildcards.sample}/%j.{rule}.out",
+    	"error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
     },
     "delly_merge" :
     {
-    "output" : ".logs/%j.{rule}.out",
-    "error"  : ".logs/%j.{rule}.err"
+    	"output" : ".logs/%j.{rule}.out",
+    	"error"  : ".logs/%j.{rule}.err"
     },
     "filter_survivor":
     {
-    "output" : ".logs/%j.{rule}.out",
-    "error"  : ".logs/%j.{rule}.err"
+    	"output" : ".logs/%j.{rule}.out",
+    	"error"  : ".logs/%j.{rule}.err"
     },
     "gridss_filter":
     {
-    "output" : ".logs/{wildcards.sample}/%j.{rule}.out",
-    "error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
+    	"output" : ".logs/{wildcards.sample}/%j.{rule}.out",
+    	"error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
     },
     "gridss_anno":
     {
-    "output" : ".logs/{wildcards.sample}/%j.{rule}.out",
-    "error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
+    	"output" : ".logs/{wildcards.sample}/%j.{rule}.out",
+    	"error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
     },
     "gridss_call":
     {
-    "output" : ".logs/{wildcards.sample}/%j.{rule}.out",
-    "error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
+    	"output" : ".logs/{wildcards.sample}/%j.{rule}.out",
+    	"error"  : ".logs/{wildcards.sample}/%j.{rule}.err"
     }, 
     "gridss_svimmer":
     {
-    "output" : ".logs/svimmer/{wildcards.chrm}/%j.{rule}.out",
-    "error"  : ".logs/svimmer/{wildcards.chrm}/%j.{rule}.err"
+    	"output" : ".logs/svimmer/{wildcards.chrm}/%j.{rule}.out",
+    	"error"  : ".logs/svimmer/{wildcards.chrm}/%j.{rule}.err"
     },
     "gridss_join":
     {
-    "output" : ".logs/svimmer/%j.{rule}.out",
-    "error"  : ".logs/svimmer/%j.{rule}.err"
+    	"output" : ".logs/svimmer/%j.{rule}.out",
+    	"error"  : ".logs/svimmer/%j.{rule}.err"
     },
     "make_gridss_list":
     {
-    "output" : ".logs/%j.{rule}.out",
-    "error"  : ".logs/%j.{rule}.err"
+    	"output" : ".logs/%j.{rule}.out",
+    	"error"  : ".logs/%j.{rule}.err"
+    },
+    "graphVep":
+    {
+    	"output" : ".logs/%j.{rule}.out",
+    	"error"  : ".logs/%j.{rule}.err"
     }
 }
