@@ -1,0 +1,20 @@
+#!/bin/bash -l
+#BSUB -W 12:00
+#BSUB -n 1
+#BSUB -R span[hosts=1]
+#BSUB -R rusage[mem=20GB]
+#BSUB -J annoVcf
+#BSUB -o anno.out
+#BSUB -e anno.err
+
+module load apptainer
+conda activate snakemake
+
+REF_DIR=/gpfs_common/share01/stern/mwvandew/sv_dogs/reference/UU_Cfam_GSD_1.0_ROSY/
+SVAR_DIR=/gpfs_common/share01/stern/mwvandew/sv_dogs/
+
+snakemake -s delly.smk \
+	--configfile ../config.yaml \
+	--use-singularity \
+	--singularity-args "-B $REF_DIR,$SVAR_DIR" \
+	--profile lsf.go_wags
