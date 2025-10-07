@@ -1,0 +1,23 @@
+#!/bin/bash -l
+#BSUB -W 72:00
+#BSUB -n 1
+#BSUB -R span[hosts=1]
+#BSUB -R rusage[mem=20GB]
+#BSUB -J annoVcf
+#BSUB -o anno.out
+#BSUB -e anno.err
+
+module load apptainer
+conda activate snakemake
+
+BASE_DIR=/gpfs_common/share01/stern/mwvandew/make_SV_vcf/
+TMP_DIR=/share/stern/mwvandew/tmp
+
+snakemake -s sv_snake.smk \
+	--configfile config.yaml \
+	--use-singularity \
+	--singularity-args "-B $BASE_DIR,$TMP_DIR" \
+	--profile lsf.go_wags \
+        --keep-going \
+        --rerun-triggers mtime
+        
